@@ -1,6 +1,6 @@
 # *Deep_Learning_Predicting_De_novo_Promoters-TSS-EBV*
 
-![image](https://drive.google.com/file/d/160cKwUrHdEoG_jkERkLn7kMPAxveKvl-/view?usp=drive_link)
+![image](https://drive.google.com/file/d/160cKwUrHdEoG_jkERkLn7kMPAxveKvl-/view?usp=sharing)
 
 ## **1. Introduction**
 
