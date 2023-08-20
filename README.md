@@ -1,6 +1,6 @@
 # *Deep_Learning_Predicting_De_novo_Promoters-TSS-EBV*
 
-![image](https://github.com/truong128/Deep_Learning_Predicting_De_novo_Promoters-TSS-EBV/blob/main/De_novo_Promoter.png)
+![image](https://github.com/truong128/images_storage/blob/main/De_novo_Promoter.png)
 
 ## **1. Introduction**
 
