@@ -13,10 +13,10 @@ from tensorflow.keras import layers
 from sklearn.ensemble import RandomForestClassifier
 
 # Load train dataset
-TSS = pd.read_csv('/content/drive/MyDrive/ML_TSS/de_novo_promoters_Akata_BCR_plus_Mutu_Zta_with_either_TATTAAA_or_TATTTAA_motif_minus_40_to_minus_10_same_orientation_0_No_vPIC_sites_extracted_+_200bp_sequences_encoded_18K_Combined_0vs1_rows.csv')
+TSS = pd.read_csv('de_novo_promoters_traindata.csv')
 
-X_train = TSS.iloc[:, 0:399]
-y_train = TSS['TSS']
+X_train = TSS.iloc[:, :-1]  # Exclude the last column
+y_train = TSS.iloc[:, -1]
 
 # Encode labels (if the target is not binary, you may use OneHotEncoder)
 label_encoder = LabelEncoder()
