@@ -12,18 +12,16 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from sklearn.ensemble import RandomForestClassifier
 
-# Load train dataset
 TSS = pd.read_csv('de_novo_promoters_traindata.csv')
 
 X_train = TSS.iloc[:, :-1]  # Exclude the last column
 y_train = TSS.iloc[:, -1]
 
-# Encode labels (if the target is not binary, you may use OneHotEncoder)
 label_encoder = LabelEncoder()
 y_train = label_encoder.fit_transform(y_train)
 
 X = X_train.dropna(axis='columns')
-# Define the deep learning model for feature selection
+
 def create_model(input_dim):
     model = keras.Sequential()
     model.add(layers.Dense(128, activation='relu', input_dim=input_dim))
@@ -34,14 +32,14 @@ def create_model(input_dim):
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
-# Function to get feature scores using deep learning model
+
 def get_feature_scores(X_train, y_train):
     model = create_model(X_train.shape[1])
     model.fit(X_train, y_train, epochs=20, batch_size=64, verbose=0)
     feature_scores = np.abs(model.get_weights()[0]).sum(axis=1)
     return feature_scores
 
-# Defining various steps required for the genetic algorithm
+
 def initilization_of_population(size, n_feat):
     population = []
     for i in range(size):
@@ -108,22 +106,22 @@ def selection(pop_after_fit, weights, k):
     return pop_after_sel
 
 def crossover(p1, p2, crossover_rate):
-    # Children are copies of parents by default
+    
     c1, c2 = p1.copy(), p2.copy()
-    # Check for recombination
+    
     if random.random() < crossover_rate:
-        # Select crossover point that is not on the end of the string
+        
         pt = random.randint(1, len(p1) - 2)
-        # Perform crossover
+       
         c1 = np.concatenate((p1[:pt], p2[pt:]))
         c2 = np.concatenate((p2[:pt], p1[pt:]))
     return [c1, c2]
 
 def mutation(chromosome, mutation_rate):
     for i in range(len(chromosome)):
-        # Check for a mutation
+       
         if random.random() < mutation_rate:
-            # Flip the bit
+           
             chromosome[i] = not chromosome[i]
 
 def generations(size, n_feat, crossover_rate, mutation_rate, n_gen):
@@ -139,18 +137,18 @@ def generations(size, n_feat, crossover_rate, mutation_rate, n_gen):
         k = size - 2
         pop_after_sel = selection(pop_after_fit, weights, k)
 
-        # Create the next generation
+        
         children = []
         for i in range(0, len(pop_after_sel), 2):
-            # Get selected parents in pairs
+            
             p1, p2 = pop_after_sel[i], pop_after_sel[i + 1]
-            # Crossover and mutation
+           
             for c in crossover(p1, p2, crossover_rate):
                 mutation(c, mutation_rate)
-                # Store for next generation
+                
                 children.append(c)
 
-        # Replace population
+       
         pop_after_mutated = children
         population_nextgen = []
         for c in pop_after_fit[:2]:
